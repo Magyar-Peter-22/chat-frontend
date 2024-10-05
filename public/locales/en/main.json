@@ -1,0 +1,19 @@
+{
+  "rooms": "Rooms",
+  "delete room": "delete my room",
+  "create room": "create room",
+  "online": "Online",
+  "settings": "Settings",
+  "change username": "Change username",
+  "language": "Language",
+  "welcome": "Welcome {{username}}!",
+  "connecting": "connecting",
+  "write": "Write a message",
+  "loading messages": "Loading messages",
+  "no messages yet": "No messages yet",
+  "home": "Home",
+  "drop_files":"Drop to upload",
+  "messages": {
+    "this room deleted": "This room has been deleted"
+  }
+}

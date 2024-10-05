@@ -1,0 +1,8 @@
+{
+  "title": "Create your chat room",
+  "description": "You can have only one chatroom at once.",
+  "label": "Room name",
+  "messages": {
+    "room created": "Room created"
+  }
+}

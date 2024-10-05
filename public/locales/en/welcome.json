@@ -1,0 +1,26 @@
+{
+    "desc": "Chat online together",
+    "blocks": {
+        "realtime": {
+            "title": "Realtime",
+            "desc": "All significant actions are updated in realtime."
+        },
+        "simple": {
+            "title": "Simple",
+            "desc": "The registration is fully automated."
+        },
+        "multilingular": {
+            "title": "Multilungular",
+            "desc": "Multiple languages are supported."
+        }
+    },
+    "dialog": {
+        "m1": "Hello {{user2}}, how was your day?",
+        "m2": "Hi {{user1}}, thanks I'm fine.",
+        "m3": "We will go to a restaurant with my friends tomorrow, do you want to come too?",
+        "m4": "I will gladly join, tell me the date.",
+        "m5": "Tomorrow in the afternoon.",
+        "m6": "See you there then, bye.",
+        "m7": "Good bye"
+    }
+}

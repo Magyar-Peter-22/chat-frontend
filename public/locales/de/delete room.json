@@ -1,0 +1,7 @@
+{
+  "title": "Bist du sicher?",
+  "description": "Der Chatroom kann nach dem Löschen nicht wiederhergestellt werden.",
+  "messages": {
+    "room deleted": "Raum gelöscht"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Benutzernamen ändern",
+  "description": "Sie können Ihren Benutzernamen jederzeit ändern.",
+  "label": "Neuer Benutzername",
+  "messages": {
+    "username changed": "Benutzername geändert"
+  }
+}

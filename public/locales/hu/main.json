@@ -1,0 +1,19 @@
+{
+  "rooms": "Szobák",
+  "delete room": "szoba törlése",
+  "create room": "szoba létrehozása",
+  "online": "Csatlakozva",
+  "settings": "Beállítások",
+  "change username": "Felhasználónév módosítása",
+  "language": "Nyelv",
+  "welcome": "Üdvözöljük {{username}}!",
+  "connecting": "csatlakozás",
+  "write": "Írj üzenetet",
+  "loading messages": "Üzenetek betöltése",
+  "no messages yet": "Még nincsenek üzenetek",
+  "home": "Kezdőlap",
+  "drop_files":"Feltöltés",
+  "messages": {
+    "this room deleted": "Ezt a szobát törölték"
+  }
+}

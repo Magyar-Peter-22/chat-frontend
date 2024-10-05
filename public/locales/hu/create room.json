@@ -1,0 +1,8 @@
+{
+  "title": "Hozd létre a chatszobádat",
+  "description": "Egyszerre csak egy chatszobája lehet.",
+  "label": "Szoba neve",
+  "messages": {
+    "room created": "Szoba létrehozva"
+  }
+}

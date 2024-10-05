@@ -1,0 +1,19 @@
+{
+  "rooms": "Zimmer",
+  "delete room": "Lösche mein Zimmer",
+  "create room": "Raum schaffen",
+  "online": "Online",
+  "settings": "Einstellungen",
+  "change username": "Benutzernamen ändern",
+  "language": "Sprache",
+  "welcome": "Willkommen {{username}}!",
+  "connecting": "verbinden",
+  "write": "Nachricht schreiben",
+  "loading messages": "Nachrichten werden geladen",
+  "no messages yet": "Noch keine Nachrichten",
+  "home": "Heim",
+  "drop_files":"Hochladen",
+  "messages": {
+    "this room deleted": "Dieser Raum wurde gelöscht"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Felhasználónév módosítása",
+  "description": "Felhasználónevét bármikor megváltoztathatja.",
+  "label": "Új felhasználónév",
+  "messages": {
+    "username changed": "Felhasználónév megváltozott"
+  }
+}

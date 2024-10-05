@@ -1,0 +1,7 @@
+{
+  "title": "Are you sure?",
+  "description": "The chat room cannot be recovered after deletion.",
+  "messages": {
+    "room deleted": "Room deleted"
+  }
+}

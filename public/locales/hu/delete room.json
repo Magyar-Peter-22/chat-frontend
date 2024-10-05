@@ -1,0 +1,7 @@
+{
+  "title": "Biztos vagy benne?",
+  "description": "A csevegőszoba nem állítható vissza a törlés után.",
+  "messages": {
+    "room deleted": "Szoba törölve"
+  }
+}

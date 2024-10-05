@@ -1,0 +1,26 @@
+{
+    "desc": "Chatten Sie gemeinsam online",
+    "blocks": {
+        "realtime": {
+            "title": "Echtzeit",
+            "desc": "Alle wichtigen Aktionen werden in Echtzeit aktualisiert."
+        },
+        "simple": {
+            "title": "Einfach",
+            "desc": "Die Registrierung erfolgt vollständig automatisiert."
+        },
+        "multilingular": {
+            "title": "Mehrlungulär",
+            "desc": "Es werden mehrere Sprachen unterstützt."
+        }
+    },
+    "dialog": {
+        "m1": "Hallo {{user2}}, Wie war dein Tag?",
+        "m2": "Hallo {{user1}}, Danke, mir geht es gut.",
+        "m3": "Wir gehen morgen mit meinen Freunden in ein Restaurant, willst du auch kommen?",
+        "m4": "Ich mache gerne mit, nenne mir den Termin.",
+        "m5": "Morgen Nachmittag.",
+        "m6": "Bis dann, tschüss.",
+        "m7": "Auf Wiedersehen"
+    }
+}

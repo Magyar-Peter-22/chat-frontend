@@ -1,0 +1,26 @@
+{
+    "desc": "Csevegés online",
+    "blocks": {
+        "realtime": {
+            "title": "Valós idejű",
+            "desc": "Minden jelentős művelet valós időben frissül."
+        },
+        "simple": {
+            "title": "Egyszerű",
+            "desc": "A regisztráció teljesen automatizált."
+        },
+        "multilingular": {
+            "title": "Többnyelvű",
+            "desc": "Több nyelv támogatott."
+        }
+    },
+    "dialog": {
+        "m1": "Helló {{user2}}, milyen napod volt?",
+        "m2": "Szia {{user1}}, köszönöm jól vagyok.",
+        "m3": "Holnap elmegyünk egy étterembe a barátaimmal, te is szeretnél jönni?",
+        "m4": "Szívesen csatlakozom, mondd meg a dátumot.",
+        "m5": "Holnap délután.",
+        "m6": "Akkor ott találkozunk, viszlát.",
+        "m7": "viszlát"
+    }
+}
