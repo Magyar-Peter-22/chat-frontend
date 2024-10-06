@@ -8,7 +8,7 @@ export default ({ room }) => {
     const { joined, roomError } = useRoom(room);
 
     return (
-            <Box style={{ flexGrow: 1, zIndex: 1 }} bgcolor="grey.A100">
+            <Box style={{ flexGrow: 1, zIndex: 1 }} bgcolor="grey.A200">
                 {
                     roomError ? (
                         <ListMessage>Error: {roomError.toString()}</ListMessage>

@@ -9,6 +9,8 @@ import { ModalProvider } from './Modals';
 import { RoomProvider } from "./sideMenu/rooms/RoomContext";
 import socket from "/src/connect";
 import constants from "./constants";
+import Crendentials from "./auth/Crendentials";
+import Transition from "./Transition";
 
 //it needs a default value to prevent errors in developer mode
 const UserContext = createContext({ user: { _id: 0, username: "name" } });
@@ -18,6 +20,7 @@ export default () => {
     const [user, setUser] = useState();
     const [error, setError] = useState("");
     const [rooms, setRooms] = useState();
+    const [needsLogin, setNeedsLogin] = useState(false);
 
     //connect to websocket and get the user
     useEffect(() => {
@@ -29,15 +32,20 @@ export default () => {
             }
 
             function onDisconnect() {
+                debugger
                 setIsConnected(false);
             }
 
             function onError(data) {
+                if (data.message === "401")
+                    return setNeedsLogin(true);
+
                 console.error(data);
                 enqueueSnackbar(data.toString(), { variant: "error" });
             }
 
             function onUser(data) {
+                debugger
                 setUser(data);
             }
 
@@ -71,19 +79,25 @@ export default () => {
     return (
         <UserContext.Provider value={{ user, setUser }}>
             <AnimatePresence>
-                {!user || !isConnected || !rooms ?
-                    <FadeoutLoading key="loading" />
-                    :
-                    <BrowserRouter key="loaded">
-                        <RoomProvider initialRooms={rooms}>
-                            <ModalProvider>
-                                <Main />
-                            </ModalProvider>
-                        </RoomProvider>
-                    </BrowserRouter>
+                {
+                    needsLogin ? (
+                        <Transition key="crendentials" >
+                            <Crendentials />
+                        </Transition>
+                    ) : user === null || !isConnected || !rooms ? (
+                        <FadeoutLoading key="loading" />
+                    ) : (
+                        <BrowserRouter key="loaded">
+                            <RoomProvider initialRooms={rooms}>
+                                <ModalProvider>
+                                    <Main />
+                                </ModalProvider>
+                            </RoomProvider>
+                        </BrowserRouter >
+                    )
                 }
-            </AnimatePresence>
-        </UserContext.Provider>
+            </AnimatePresence >
+        </UserContext.Provider >
     );
 }
 export { UserContext };

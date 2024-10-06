@@ -1,11 +1,11 @@
 import Box from '@mui/material/Box';
-import { AnimatePresence, motion } from "framer-motion";
+import Stack from '@mui/material/Stack';
+import { AnimatePresence } from "framer-motion";
 import { useParams } from 'react-router-dom';
 import ChatContainer from '../chat/ChatContainer';
-import Stack from '@mui/material/Stack';
 import Creator from "../chat/Creator";
-import constants from '../constants';
 import DropFiles from '../chat/DropFiles';
+import Transition from '../Transition';
 
 export default () => {
     const { room } = useParams();
@@ -21,26 +21,5 @@ export default () => {
             <Creator />
             <DropFiles/>
         </Stack>
-    )
-}
-
-function Transition({ children }) {
-    return (
-        <motion.div
-            animate={{ opacity: 1, zIndex: 0 }}
-            exit={{ opacity: 0, zIndex: 1 }}
-            transition={{ duration: constants.animation }}
-            style={{
-                position: "absolute",
-                height: "100%",
-                width: "100%",
-                top: 0,
-                left: 0,
-                display: "flex",
-                flexDirection: "column"
-            }}
-        >
-            {children}
-        </motion.div>
     )
 }

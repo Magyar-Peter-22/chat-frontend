@@ -1,7 +1,9 @@
 import { io } from 'socket.io-client';
+const env = import.meta.env;
 
-export default io("/",{
+const url = env.VITE_SERVER_URL;
+
+export default io(url,{
     withCredentials: true,
     autoConnect: false,
-    path:"/api/socket.io/"
 });
