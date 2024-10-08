@@ -53,6 +53,12 @@ export default () => {
         }
     });
 
+    //go to login screen if the login fetch ended without result
+    useEffect(() => {
+        if (!isPending && !authData)
+            setNeedsLogin(true);
+    }, [authData, isPending])
+
     //connect to websocket and get the user
     //after the login attempt is done
     useEffect(() => {
@@ -76,20 +82,17 @@ export default () => {
             }
 
             function onDisconnect() {
-                debugger
                 setIsConnected(false);
             }
 
             function onError(data) {
-                if (data.message === "401")
-                    return setNeedsLogin(true);
-
+                //go to the login screen when an error happens
+                setNeedsLogin(true);
                 console.error(data);
                 enqueueSnackbar(data.toString(), { variant: "error" });
             }
 
             function onUser(data) {
-                debugger
                 setUser(data);
             }
 
@@ -125,17 +128,14 @@ export default () => {
             <SocketContext.Provider value={socket}>
                 <AnimatePresence>
                     {
-                        isPending ? (
-                            //when the auth fetch is still pending, show a loading screen
-                            <FadeoutLoading key="loading" text={"authentication"} />
-                        ) : needsLogin || !authData ? (
+                        needsLogin ? (
                             //when failed to login in either the fetch or the connection, show the login form
                             <Transition key="crendentials" >
                                 <Crendentials />
                             </Transition>
-                        ) : (user === null || !isConnected || !rooms) && authData ? (
-                            //when logged in and connecting, show the a loading screen
-                            <FadeoutLoading key="loading" text={"connecting"} />
+                        ) : isPending || !isConnected || !rooms || !user ? (
+                            //when authenticating or connecting show the loading screen
+                            <FadeoutLoading key="loading" text={isPending || !authData ? "authentication" : "connecting"} />
                         ) : (
                             //when everything is done, show the main page
                             <BrowserRouter key="loaded">
