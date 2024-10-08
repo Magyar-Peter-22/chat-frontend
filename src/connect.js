@@ -3,7 +3,6 @@ const env = import.meta.env;
 
 const url = env.VITE_SERVER_URL;
 
-export default io(url,{
-    withCredentials: true,
+export default io(url, {
     autoConnect: false,
 });

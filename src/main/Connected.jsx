@@ -11,9 +11,18 @@ import socket from "/src/connect";
 import constants from "./constants";
 import Crendentials from "./auth/Crendentials";
 import Transition from "./Transition";
+import instance from "./auth/instance";
+import { getAccessToken, getRefreshToken, saveAccessToken } from "./auth/tokens";
+import { useQuery } from "@tanstack/react-query";
+import { io } from 'socket.io-client';
+
+const env = import.meta.env;
+const url = env.VITE_SERVER_URL;
 
 //it needs a default value to prevent errors in developer mode
 const UserContext = createContext({ user: { _id: 0, username: "name" } });
+
+const SocketContext = createContext();
 
 export default () => {
     const [isConnected, setIsConnected] = useState(false);
@@ -21,14 +30,49 @@ export default () => {
     const [error, setError] = useState("");
     const [rooms, setRooms] = useState();
     const [needsLogin, setNeedsLogin] = useState(false);
+    const [socket, setSocket] = useState();
+
+    //try to use the refresh token on start
+    const { data: authData, isPending } = useQuery({
+        queryKey: ["refreshToken"],
+        staleTime: 0,
+        queryFn: async () => {
+            //find token
+            const refreshToken = getRefreshToken();
+
+            //exit if no token
+            if (!refreshToken)
+                return null;
+
+            //try to get access token from refresh token
+            const res = await instance.post("/auth/refresh_token", { refreshToken });
+            const accessToken = res.data ?? null;
+            saveAccessToken(accessToken);
+            console.log(`obtained access token from refresh token:\n${accessToken}`)
+            return accessToken;
+        }
+    });
 
     //connect to websocket and get the user
+    //after the login attempt is done
     useEffect(() => {
+        if (!authData)
+            return;
+
         try {
+            //create new socket
+            const socket = io(url, {
+                extraHeaders: {
+                    Authorization: `Bearer ${getAccessToken()}`
+                }
+            });
+
+            //send tokens on connect
             socket.connect();
 
             function onConnect() {
                 setIsConnected(true);
+                setSocket(socket);
             }
 
             function onDisconnect() {
@@ -69,7 +113,7 @@ export default () => {
             console.error(err);
             setError(err.message);
         }
-    }, []);
+    }, [authData]);
 
     //show error page when failed to connect
     if (error)
@@ -78,31 +122,39 @@ export default () => {
     //if all good, show the page
     return (
         <UserContext.Provider value={{ user, setUser }}>
-            <AnimatePresence>
-                {
-                    needsLogin ? (
-                        <Transition key="crendentials" >
-                            <Crendentials />
-                        </Transition>
-                    ) : user === null || !isConnected || !rooms ? (
-                        <FadeoutLoading key="loading" />
-                    ) : (
-                        <BrowserRouter key="loaded">
-                            <RoomProvider initialRooms={rooms}>
-                                <ModalProvider>
-                                    <Main />
-                                </ModalProvider>
-                            </RoomProvider>
-                        </BrowserRouter >
-                    )
-                }
-            </AnimatePresence >
+            <SocketContext.Provider value={socket}>
+                <AnimatePresence>
+                    {
+                        isPending ? (
+                            //when the auth fetch is still pending, show a loading screen
+                            <FadeoutLoading key="loading" text={"authentication"} />
+                        ) : needsLogin || !authData ? (
+                            //when failed to login in either the fetch or the connection, show the login form
+                            <Transition key="crendentials" >
+                                <Crendentials />
+                            </Transition>
+                        ) : (user === null || !isConnected || !rooms) && authData ? (
+                            //when logged in and connecting, show the a loading screen
+                            <FadeoutLoading key="loading" text={"connecting"} />
+                        ) : (
+                            //when everything is done, show the main page
+                            <BrowserRouter key="loaded">
+                                <RoomProvider initialRooms={rooms}>
+                                    <ModalProvider>
+                                        <Main />
+                                    </ModalProvider>
+                                </RoomProvider>
+                            </BrowserRouter >
+                        )
+                    }
+                </AnimatePresence >
+            </SocketContext.Provider>
         </UserContext.Provider >
     );
 }
 export { UserContext };
 
-function FadeoutLoading() {
+function FadeoutLoading({ text }) {
     const { t } = useTranslation("main");
     return (
         <motion.div
@@ -115,7 +167,7 @@ function FadeoutLoading() {
                 width: "100%"
             }}
         >
-            <Loading text={t("connecting")} />
+            <Loading text={t(text)} />
         </motion.div>
     );
 }

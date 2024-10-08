@@ -9,6 +9,8 @@ import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import Button from '@mui/material/Button';
 import instance from './instance';
+import { useQuery } from '@tanstack/react-query';
+import { saveTokens } from './tokens';
 
 export default () => {
     const { t } = useTranslation("main");
@@ -20,14 +22,22 @@ export default () => {
         }
     });
 
+    //disable buttons
     const canSubmit = !isSubmitting && !isValid;
 
     const onLogin = handleSubmit(async (data) => {
-        await instance.post("/login", data);
+        await instance.post("/auth/login", data);
     });
 
-    const onRegister = handleSubmit(async (data) => {
-        await instance.post("/register", data);
+    const onRegister = handleSubmit(async (form) => {
+        //get tokens on successful register
+        const { data } = await instance.post("/auth/register", form);
+
+        //save the tokens into their storages
+        saveTokens(data);
+
+        console.log("registered, recieved and saved tokens:");
+        console.log(data);
     });
 
     return (
@@ -76,5 +86,3 @@ export default () => {
         </Stack >
     )
 }
-
-const wait = async () => new Promise(res => setTimeout(res, 1000))
