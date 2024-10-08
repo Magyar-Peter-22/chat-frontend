@@ -1,20 +1,19 @@
+import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { enqueueSnackbar } from 'notistack';
 import { createContext, useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { BrowserRouter } from "react-router-dom";
+import { io } from 'socket.io-client';
 import Loading from "../Loading";
+import Crendentials from "./auth/Crendentials";
+import instance from "./auth/instance";
+import { getAccessToken, getRefreshToken, saveAccessToken } from "./auth/tokens";
+import constants from "./constants";
 import Main from "./Main";
 import { ModalProvider } from './Modals';
 import { RoomProvider } from "./sideMenu/rooms/RoomContext";
-import socket from "/src/connect";
-import constants from "./constants";
-import Crendentials from "./auth/Crendentials";
 import Transition from "./Transition";
-import instance from "./auth/instance";
-import { getAccessToken, getRefreshToken, saveAccessToken } from "./auth/tokens";
-import { useQuery } from "@tanstack/react-query";
-import { io } from 'socket.io-client';
 
 const env = import.meta.env;
 const url = env.VITE_SERVER_URL;
@@ -152,7 +151,7 @@ export default () => {
         </UserContext.Provider >
     );
 }
-export { UserContext };
+export { SocketContext, UserContext };
 
 function FadeoutLoading({ text }) {
     const { t } = useTranslation("main");

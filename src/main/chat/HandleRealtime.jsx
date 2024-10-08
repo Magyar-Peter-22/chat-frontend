@@ -1,9 +1,10 @@
 import { useContext, useEffect } from 'react';
-import socket from "/src/connect";
+import { SocketContext } from '../Connected';
 import { UserContext } from '../Connected';
 
 function handleRealtime(addMessage, updateUser) {
     const { user } = useContext(UserContext);
+    const socket=useContext(SocketContext);
 
     useEffect(() => {
         function onMessage(data) {
@@ -22,7 +23,7 @@ function handleRealtime(addMessage, updateUser) {
             socket.off('get message', onMessage);
             socket.off('update user', onUser);
         };
-    }, []);
+    }, [socket]);
 }
 
 export default handleRealtime;

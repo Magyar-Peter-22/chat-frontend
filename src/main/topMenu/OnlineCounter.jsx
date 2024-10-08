@@ -1,13 +1,14 @@
 import PublicIcon from '@mui/icons-material/Public';
 import Stack from '@mui/material/Stack';
 import Typography from "@mui/material/Typography";
-import socket from "/src/connect";
-import { useState,useEffect } from 'react';
+import { useState,useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { SocketContext } from '../Connected';
 
 export default () => {
     const [count, setCount] = useState(0);
     const { t } = useTranslation("main");
+    const socket=useContext(SocketContext);
 
     useEffect(() => {
         function onChange(newCount) {

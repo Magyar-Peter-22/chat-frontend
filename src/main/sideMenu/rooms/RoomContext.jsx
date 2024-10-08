@@ -2,7 +2,7 @@ import { enqueueSnackbar } from "notistack";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { matchPath } from 'react-router';
 import { useLocation, useNavigate } from "react-router-dom";
-import socket from "/src/connect";
+import { SocketContext } from "../../Connected";
 import { useTranslation } from 'react-i18next';
 
 function RoomProvider({ initialRooms, children }) {
@@ -12,6 +12,7 @@ function RoomProvider({ initialRooms, children }) {
     const navigate = useNavigate();
     const { pathname } = useLocation()
     const { t } = useTranslation(["main"]);
+    const socket = useContext(SocketContext);
 
     //clear the alerts of a room when entering
     const clearAlerts = useCallback((room) => () => {

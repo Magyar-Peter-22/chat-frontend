@@ -5,12 +5,12 @@ import {
 } from '@tanstack/react-query';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { AnimatePresence, motion } from "framer-motion";
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import handleRealtime from './HandleRealtime';
 import ListMessage from './ListMessage';
 import Message from './Message';
 import UpdateUser from './UpdateUser';
-import socket from "/src/connect";
+import { SocketContext } from '../Connected';
 import { useTranslation } from 'react-i18next';
 import constants from '../constants';
 
@@ -22,6 +22,7 @@ const Chat = forwardRef(({ sx, room, ...props }, ref) => {
     const [realTime, setRealtime] = useState([]);
     const queryClient = useQueryClient();
     const { t } = useTranslation(["main"]);
+    const socket=useContext(SocketContext);
 
     ////handle infinite list queries
     const {
@@ -34,7 +35,7 @@ const Chat = forwardRef(({ sx, room, ...props }, ref) => {
         fetchPreviousPage,
     } = useInfiniteQuery({
         queryKey: queryKey,
-        queryFn: fetchMessages,
+        queryFn: async(ctx)=>fetchMessages(ctx,socket),
         getNextPageParam: (lastPage) => lastPage?.nextParam,
         getPreviousPageParam: (firstPage) => firstPage?.prevParam,
         initialPageParam: { offset: 0 },
@@ -205,7 +206,7 @@ const Chat = forwardRef(({ sx, room, ...props }, ref) => {
     )
 });
 
-const fetchMessages = async (ctx) => {
+const fetchMessages = async (ctx,socket) => {
     return new Promise((res, rej) => {
         const { offset, startTime } = ctx.pageParam;
         //the first fetch is always forward
